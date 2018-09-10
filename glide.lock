@@ -1,0 +1,47 @@
+hash: 1cbf79ee3ee91e23daa22c6b5d655be81be1781ab66d7d2d44c025da8ac9f25e
+updated: 2018-06-28T13:43:28.3401039+08:00
+imports:
+- name: github.com/bitly/go-simplejson
+  version: da1a8928f709389522c8023062a3739f3b4af419
+- name: github.com/bradfitz/gomemcache
+  version: 1952afaa557dc08e8e0d89eafab110fb501c1a2b
+  subpackages:
+  - memcache
+- name: github.com/eclipse/paho.mqtt.golang
+  version: 36d01c2b4cbeb3d2a12063e4880ce30800af9560
+- name: github.com/garyburd/redigo
+  version: 569eae59ada904ea8db7a225c2b47165af08735a
+  subpackages:
+  - redis
+- name: github.com/golang/snappy
+  version: 553a641470496b2327abcac10b36396bd98e45c9
+- name: github.com/mattn/go-sqlite3
+  version: a72efd674f654961a11ac41aae72c0e43963fe6c
+- name: github.com/satori/go.uuid
+  version: 36e9d2ebbde5e3f13ab2e25625fd453271d6522e
+- name: github.com/silenceper/wechat
+  version: 4470d51ac3740b724b75465f00065cb4a72a0708
+- name: github.com/syndtr/goleveldb
+  version: 8c81ea47d4c41a385645e133e15510fc6a2a74b4
+  subpackages:
+  - leveldb
+  - leveldb/cache
+  - leveldb/comparer
+  - leveldb/errors
+  - leveldb/filter
+  - leveldb/iterator
+  - leveldb/journal
+  - leveldb/memdb
+  - leveldb/opt
+  - leveldb/storage
+  - leveldb/table
+  - leveldb/util
+- name: github.com/toolkits/file
+  version: a5b3c5147e07f934d9f9d00b901a20b2529f1a57
+- name: golang.org/x/net
+  version: e514e69ffb8bc3c76a71ae40de0118d794855992
+  subpackages:
+  - internal/socks
+  - proxy
+  - websocket
+testImports: []

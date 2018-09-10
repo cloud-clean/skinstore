@@ -1,0 +1,16 @@
+package: skinstore
+import:
+- package: github.com/silenceper/wechat
+- package: github.com/garyburd/redigo
+  subpackages:
+  - redis
+- package: github.com/bradfitz/gomemcache
+  subpackages:
+  - memcache
+- package: github.com/syndtr/goleveldb
+- package: github.com/bitly/go-simplejson
+- package: github.com/satori/go.uuid
+- package: github.com/mattn/go-sqlite3
+- package: github.com/toolkits/file
+- package: github.com/eclipse/paho.mqtt.golang
+  version: ^1.1.1
