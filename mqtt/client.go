@@ -3,6 +3,7 @@ package mqtt
 import (
 	"fmt"
 	"github.com/eclipse/paho.mqtt.golang"
+	"time"
 )
 
 const(
@@ -15,7 +16,8 @@ type MqttClient struct {
 }
 
 func NewMqttClient(username,password,topic string) *MqttClient{
-	opts := mqtt.NewClientOptions().AddBroker(MQTT_SERVER).SetClientID(CLIENT_ID)
+	clientId := time.Now().Unix()
+	opts := mqtt.NewClientOptions().AddBroker(MQTT_SERVER).SetClientID(string(clientId))
 	opts.SetProtocolVersion(4)
 	opts.SetUsername(username)
 	opts.SetPassword(password)
