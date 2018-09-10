@@ -26,6 +26,15 @@ func InitRoute() []router.Route{
 	addPost("/api/reser/status/update",Handler.UpdateReservationStatusHandler,map[string]bool{"id":true,"status":true})
 	//upload
 	addPost("/api/upload",Handler.UploadFileHandler,map[string]bool{"upload":true})
+
+	//lot
+	addPost("/api/lot/add",Handler.SaveLampHander,map[string]bool{"pos":true,"status":true})
+	addPost("/api/lot/update",Handler.UpdateLampHander,map[string]bool{"pos":true,"status":true})
+
+
+
+
+
 	//weixin
 	addGet("/api/wx/msg",Handler.MsgGetHandler,map[string]bool{"signature":true,"timestamp":true,"nonce":true,"echostr":true})
 	addPost("/api/wx/msg",Handler.MsgPostHandler,map[string]bool{"data":true})
@@ -33,6 +42,9 @@ func InitRoute() []router.Route{
 	addGet("/api/wx/sign",Handler.JsapiSignHandler,map[string]bool{"url":true})
 
 	addGet("/api/upload",Handler.UploadHtmlHandler,map[string]bool{})
+
+	//lot
+	addGet("/api/lot",Handler.LampStatusHander,map[string]bool{"pos":true})
 	return routers
 }
 
