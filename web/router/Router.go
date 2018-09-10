@@ -57,6 +57,7 @@ func (r *Router)RegHandlers(routes []Route){
 			r.Route[method] = make(map[string]Route)
 		}
 		r.Route[method][route.Path] = route
+		log.Infof("http method:%s mappering for %s",route.Method,route.Path)
 	}
 
 }
@@ -153,7 +154,29 @@ func getParams(req *http.Request,keys map[string]bool) (*Params,error){
 				paramMap["json"] = result
 				return &Params{data:paramMap},nil
 			}
+			contentType := req.Header.Get("content-type")
+			switch contentType {
+			case "application/x-www-form-urlencoded":
+				req.ParseForm()
+				for k,v := range keys{
+					value := req.PostFormValue(k)
+					if v {
+						if value == "" {
+							return  nil,errors.New(fmt.Sprintf("param:%s is not be nil",k))
+						}
+					}
+					paramMap[k] = value
+				}
+				return &Params{data:paramMap},nil
+				break
+			case "application/json":
+				result, _:= ioutil.ReadAll(req.Body)
+				json.Unmarshal(result,&paramMap)
+				return &Params{data:paramMap},nil
+				break
+			}
 
+			log.Infof("content type %s",contentType)
 			json.Unmarshal(result,&paramMap)
 			for k,v := range keys{
 				if _,ok := paramMap[k]; !ok && v {
