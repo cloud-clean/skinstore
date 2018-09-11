@@ -11,7 +11,7 @@ type LotEntity struct {
 }
 
 
-func GetLot(pos string) LotEntity{
+func GetLot(pos string) *LotEntity{
 	db := SqliteUtil.NewSqlDb()
 	var lot LotEntity
 	stmt,err := db.Db.Prepare(`select pos as Pos,status as Status from lot_status where pos = ?`)
@@ -19,7 +19,10 @@ func GetLot(pos string) LotEntity{
 	defer stmt.Close()
 	res:= stmt.QueryRow(pos)
 	err = res.Scan(&lot.Pos,&lot.Status)
-	return lot
+	if err != nil{
+		return nil
+	}
+	return &lot
 }
 
 
