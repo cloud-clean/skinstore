@@ -7,7 +7,7 @@ import (
 	"skinstore/web/router"
 	"skinstore/Entity/wx/message"
 	"strings"
-	"skinstore/mqtt"
+	"skinstore/mqttClient"
 )
 
 func MsgGetHandler(params *router.Params,rw http.ResponseWriter) *common.WebResult {
@@ -39,7 +39,7 @@ func parseMsg(msg *message.WxMsg){
 			if strings.Contains(content,":"){
 				index := strings.Index(content,":")
 				if index > 0{
-					mqtt.Mc.Publish(content)
+					mqttClient.Mc.Publish(content)
 				}
 			}else{
 				log.Info("get wx msg:%s  from %s",content,msg.FromUserName)
