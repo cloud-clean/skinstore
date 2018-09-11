@@ -11,7 +11,9 @@ func LampStatusHander(params *router.Params,rw http.ResponseWriter) *common.WebR
 	pos := params.Get("pos")
 	if pos != ""{
 		lotEntity := lot.GetLot(pos)
-
+		if lotEntity == nil{
+			return common.NewResult(0,"pos is not exits")
+		}
 		return common.NewResult(1,lotEntity)
 	}else{
 		return common.NewResult(0,"pos is null")
