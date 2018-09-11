@@ -28,9 +28,9 @@ func (lot *LotEntity) Update() bool{
 		return false
 	}
 	db := SqliteUtil.NewSqlDb()
-	stmt,err := db.Db.Prepare("update lot_status set status = ? where pos = ?")
+	stmt,err := db.Db.Prepare("insert or replace into lot_status(pos,status) values(?,?)")
 	common.CheckErr(err)
-	result,err := stmt.Exec(lot.Status,lot.Pos)
+	result,err := stmt.Exec(lot.Pos,lot.Status)
 	common.CheckErr(err)
 	affectNum ,err := result.RowsAffected()
 	common.CheckErr(err)
@@ -47,7 +47,7 @@ func (lot *LotEntity) Save() bool {
 		return false
 	}
 	db := SqliteUtil.NewSqlDb()
-	stmt, err := db.Db.Prepare("insert into pos_status(`pos`,`status`) values(?,?)")
+	stmt, err := db.Db.Prepare("insert into lot_status(`pos`,`status`) values(?,?)")
 	common.CheckErr(err)
 	_,err = stmt.Exec(lot.Pos,lot.Status)
 	common.CheckErr(err)

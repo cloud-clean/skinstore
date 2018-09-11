@@ -149,17 +149,17 @@ func getParams(req *http.Request,keys map[string]bool) (*Params,error){
 				paramMap["wx_msg_code"] = wxMsgParse(req)
 				return &Params{data:paramMap},nil
 			}
-			result, _:= ioutil.ReadAll(req.Body)
-			if keys["json"]{
-				paramMap["json"] = result
-				return &Params{data:paramMap},nil
-			}
+			//result, _:= ioutil.ReadAll(req.Body)
+			//if keys["json"]{
+			//	paramMap["json"] = result
+			//	return &Params{data:paramMap},nil
+			//}
 			contentType := req.Header.Get("content-type")
 			switch contentType {
 			case "application/x-www-form-urlencoded":
 				req.ParseForm()
 				for k,v := range keys{
-					value := req.PostFormValue(k)
+					value := req.PostForm.Get(k)
 					if v {
 						if value == "" {
 							return  nil,errors.New(fmt.Sprintf("param:%s is not be nil",k))
@@ -177,12 +177,6 @@ func getParams(req *http.Request,keys map[string]bool) (*Params,error){
 			}
 
 			log.Infof("content type %s",contentType)
-			json.Unmarshal(result,&paramMap)
-			for k,v := range keys{
-				if _,ok := paramMap[k]; !ok && v {
-					return nil,errors.New(fmt.Sprintf("param:%s is not be nil",k))
-				}
-			}
 			return &Params{data:paramMap},nil
 		}
 	}else{

@@ -28,7 +28,6 @@ func InitRoute() []router.Route{
 	addPost("/api/upload",Handler.UploadFileHandler,map[string]bool{"upload":true})
 
 	//lot
-	addPost("/api/lot/add",Handler.SaveLampHander,map[string]bool{"pos":true,"status":true})
 	addPost("/api/lot/update",Handler.UpdateLampHander,map[string]bool{"pos":true,"status":true})
 
 
