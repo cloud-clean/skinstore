@@ -9,9 +9,9 @@ const(
 )
 
 type WebResult struct {
-	Code int
-	Msg string
-	Result map[string]interface{}
+	Code int    `json:"code"`
+	Msg string 	`json:"msg"`
+	Result map[string]interface{}		`json:"result"`
 }
 
 func NewResult(code int,res interface{}) *WebResult{
