@@ -82,7 +82,9 @@ func (r *Router)RegHandlers(routes []Route){
 }
 
 func (r *Router)RegTemp(routes []TempRoute){
-
+	if r.Templ == nil{
+		r.Templ = make(map[string]TempRoute)
+	}
 	for _,route := range routes{
 		r.Templ[route.Path] = route
 		log.Infof("http template %s", route.Path)
