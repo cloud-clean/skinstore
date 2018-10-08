@@ -1,9 +1,11 @@
 package CommHandler
 
 import (
+	"encoding/json"
 	"net/http"
 	"net/url"
 	"regexp"
+	"skinstore/common"
 	"skinstore/common/logger"
 	"strings"
 )
@@ -36,7 +38,18 @@ func LotLoginHandler(r *http.Request,w http.ResponseWriter){
 
 func LotTokenAccess(r *http.Request,w http.ResponseWriter){
 	r.ParseForm()
-	for k,v := range r.PostForm{
-		log.Infof("key:%s  value:%s",k,v)
-	}
+	clientId := r.PostForm.Get("client_id")
+	clientSecret:= r.PostForm.Get("client_secret")
+	code := r.PostForm.Get("code")
+	grantType := r.PostForm.Get("grant_type");
+	log.Infof("clientId:%s  clientSecret:%s  code:%s  grantType:%s",clientId,clientSecret,code,grantType)
+	var resp = make(map[string]interface{})
+	resp["access_token"] = "xxxxdfasdfa"
+	resp["refresh_token"] = "eaesfasefa"
+	resp["expires_in"] = 17600000
+	w.Header().Set("Content-Type","application/json")
+	b,err := json.Marshal(resp)
+	common.CheckErr(err)
+	w.Write(b)
+
 }
