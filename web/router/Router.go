@@ -16,10 +16,14 @@ import (
 )
 
 type Handler func(*Params,http.ResponseWriter)(*common.WebResult)
+type TempHandler func(w http.ResponseWriter)
+type CommHandler func(r *http.Request,w http.ResponseWriter)
 var log = logger.NewLog()
 var noLoginUrl = []string{"/api/wx/msg"}
 type Router struct {
 	Route map[string]map[string]Route
+	Templ map[string]TempRoute
+	Comm map[string]map[string]CommRoute
 }
 
 type Route struct {
@@ -29,7 +33,23 @@ type Route struct {
 	Path string
 }
 
+type TempRoute struct {
+	Handler TempHandler
+	Path string
+}
+
+type CommRoute struct{
+	Path string
+	Method string
+	Handler CommHandler
+}
+
 func (r *Router)ServeHTTP(w http.ResponseWriter,req *http.Request){
+	//网页模板优先
+	if route,ok:= r.Templ[req.URL.Path];ok{
+		route.Handler(w)
+		return
+	}
 
 	if route,ok := r.Route[req.Method][req.URL.Path];ok{
 		params,err := getParams(req,route.Params)
@@ -59,7 +79,27 @@ func (r *Router)RegHandlers(routes []Route){
 		r.Route[method][route.Path] = route
 		log.Infof("http method:%s mappering for %s",route.Method,route.Path)
 	}
+}
 
+func (r *Router)RegTemp(routes []TempRoute){
+
+	for _,route := range routes{
+		r.Templ[route.Path] = route
+		log.Infof("http template %s", route.Path)
+	}
+}
+
+func (r *Router)RegComm(routes []CommRoute){
+	for _,route := range routes{
+		if(r.Comm == nil){
+			r.Comm = make(map[string]map[string]CommRoute)
+		}
+		method := strings.ToUpper(route.Method)
+		if r.Comm[method] == nil{
+			r.Comm[method] = make(map[string]CommRoute)
+		}
+		r.Comm[route.Method][route.Path] = route
+	}
 }
 
 type Params struct {

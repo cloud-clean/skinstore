@@ -1,11 +1,7 @@
 package main
 
 import (
-	"fmt"
-	"github.com/eclipse/paho.mqtt.golang"
 	"net/http"
-	"skinstore/common/logger"
-	"skinstore/mqttClient"
 	"skinstore/web"
 	"skinstore/web/router"
 	"strconv"
@@ -17,6 +13,8 @@ func main(){
 
 	r := &router.Router{}
 	r.RegHandlers(web.InitRoute())
+	r.RegTemp(web.InitTemplate())
+	r.RegComm(web.InitComm())
 	svr :=http.Server{
 		Addr:":"+strconv.Itoa(port),
 		ReadTimeout:time.Second*5,
@@ -24,11 +22,11 @@ func main(){
 		Handler:r,
 	}
 
-	mqttClient.MqttInit()
-	mqttClient.Mc.Subscribe(func(client mqtt.Client, message mqtt.Message) {
-		fmt.Println("get msg form mqtt:"+string(message.Payload()))
-	})
-	logger.NewLog().Infof("start server listen on:%s",svr.Addr)
+	//mqttClient.MqttInit()
+	//mqttClient.Mc.Subscribe(func(client mqtt.Client, message mqtt.Message) {
+	//	fmt.Println("get msg form mqtt:"+string(message.Payload()))
+	//})
+	//logger.NewLog().Infof("start server listen on:%s",svr.Addr)
 	svr.ListenAndServe()
 }
 

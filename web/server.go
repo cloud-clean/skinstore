@@ -1,6 +1,8 @@
 package web
 
 import (
+	"skinstore/CommHandler"
+	"skinstore/TempParser"
 	"skinstore/web/router"
 	"skinstore/common"
 	"net/http"
@@ -9,6 +11,8 @@ import (
 )
 var log = logger.NewLog()
 var routers = []router.Route{}
+var tempRouters = []router.TempRoute{}
+var commRouters = []router.CommRoute{}
 func InitRoute() []router.Route{
 	//test
 	addGet("/test/go",test, map[string]bool{"name":true,"age":false})
@@ -31,9 +35,6 @@ func InitRoute() []router.Route{
 	addPost("/api/lot/update",Handler.UpdateLampHander,map[string]bool{"pos":true,"status":true})
 
 
-
-
-
 	//weixin
 	addGet("/api/wx/msg",Handler.MsgGetHandler,map[string]bool{"signature":true,"timestamp":true,"nonce":true,"echostr":true})
 	addPost("/api/wx/msg",Handler.MsgPostHandler,map[string]bool{"data":true})
@@ -45,6 +46,16 @@ func InitRoute() []router.Route{
 	//lot
 	addGet("/api/lot",Handler.LampStatusHander,map[string]bool{"pos":true})
 	return routers
+}
+
+func InitTemplate()[]router.TempRoute{
+	addTemplate("/lot/login",TempParser.LotLogin)
+	return tempRouters
+}
+
+func InitComm()[]router.CommRoute{
+	addCommRoute("POST","/api/lot/login",CommHandler.LotLoginHandler)
+	return commRouters;
 }
 
 
@@ -61,7 +72,13 @@ func addPost(path string,h router.Handler,params map[string]bool){
 	routers = append(routers,router.Route{Method:"post",Path:path,Handler:h,Params:params})
 }
 
+func addTemplate(path string,handler router.TempHandler){
+	tempRouters = append(tempRouters,router.TempRoute{Path:path,Handler:handler})
+}
 
+func addCommRoute(method string,path string,handler router.CommHandler){
+	commRouters = append(commRouters,router.CommRoute{Handler:handler,Path:path,Method:method})
+}
 
 
 func test(params *router.Params,rw http.ResponseWriter) *common.WebResult{
