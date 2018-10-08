@@ -21,6 +21,7 @@ func LotLoginHandler(r *http.Request,w http.ResponseWriter){
 	referUri,_ := url.ParseRequestURI(decoderUrl)
 	refParams := referUri.Query()
 	redirectUrl := refParams.Get("redirect_uri")
+	log.Infof("redicect:%s",redirectUrl)
 	skillId := reg.FindStringSubmatch(redirectUrl)
 	redirectUrl = strings.Split(redirectUrl,"?")[0]
 	clientId := refParams.Get("client_id")
