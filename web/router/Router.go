@@ -101,6 +101,7 @@ func (r *Router)RegComm(routes []CommRoute){
 			r.Comm[method] = make(map[string]CommRoute)
 		}
 		r.Comm[route.Method][route.Path] = route
+		log.Infof("http method:%s path:%s",route.Method,route.Path)
 	}
 }
 
