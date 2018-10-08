@@ -51,6 +51,11 @@ func (r *Router)ServeHTTP(w http.ResponseWriter,req *http.Request){
 		return
 	}
 
+	if route,ok := r.Comm[req.Method][req.URL.Path];ok{
+		route.Handler(req,w);
+		return
+	}
+
 	if route,ok := r.Route[req.Method][req.URL.Path];ok{
 		params,err := getParams(req,route.Params)
 		if err != nil {
