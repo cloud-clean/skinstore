@@ -23,6 +23,7 @@ func LotLoginHandler(r *http.Request,w http.ResponseWriter){
 	//resType := refParams.Get("response_type")
 	log.Infof("account:%s  password:%s  skillId:%s   clientId:%s",acc,pwd,skillId,clientId)
 	redirectUrl = redirectUrl+"?code=asdfaeafaea"
+	log.Infof("redirectUrl:%s",redirectUrl)
 	http.Redirect(w,r,redirectUrl,http.StatusMovedPermanently)
 }
 
