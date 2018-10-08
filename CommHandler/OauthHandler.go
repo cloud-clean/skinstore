@@ -14,7 +14,7 @@ func LotLoginHandler(r *http.Request,w http.ResponseWriter){
 	r.ParseForm()
 	acc := r.Form.Get("account")
 	pwd := r.Form.Get("password")
-	reg := regexp.MustCompile(`http:.*skillId=(/d{5,)`)
+	reg := regexp.MustCompile(`http:.*skillId=(/d{5,})`)
 
 	referUrl := r.Header.Get("referer")
 	decoderUrl,_ := url.QueryUnescape(referUrl)
