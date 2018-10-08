@@ -30,8 +30,8 @@ func handleConn(conn net.Conn){
 	tmpBuf := make([]byte,0)
 
 	buf := make([]byte,1024)
+	defer conn.Close()
 	for{
-
 		n,err := conn.Read(buf)
 		go heartBeating(conn,flag,6)
 		if err != nil{

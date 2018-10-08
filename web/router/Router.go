@@ -173,25 +173,20 @@ func getParams(req *http.Request,keys map[string]bool) (*Params,error){
 		}else{
 			//post
 			paramMap := make(map[string]interface{})
-			if keys["upload"]{
-				file,header,error := req.FormFile("file")
-				if error != nil{
-					paramMap["error"] = error
-				}else{
-					paramMap["file"] = file
-					paramMap["header"] = header
-				}
-
-				return &Params{data:paramMap},nil
-			}
-			//get wx msg
-			if "/api/wx/msg" == req.URL.Path{
-				paramMap["wx_msg_code"] = wxMsgParse(req)
-				return &Params{data:paramMap},nil
-			}
-			//result, _:= ioutil.ReadAll(req.Body)
-			//if keys["json"]{
-			//	paramMap["json"] = result
+			//if keys["upload"]{
+			//	file,header,error := req.FormFile("file")
+			//	if error != nil{
+			//		paramMap["error"] = error
+			//	}else{
+			//		paramMap["file"] = file
+			//		paramMap["header"] = header
+			//	}
+			//
+			//	return &Params{data:paramMap},nil
+			//}
+			////get wx msg
+			//if "/api/wx/msg" == req.URL.Path{
+			//	paramMap["wx_msg_code"] = wxMsgParse(req)
 			//	return &Params{data:paramMap},nil
 			//}
 			contentType := req.Header.Get("content-type")
@@ -208,16 +203,26 @@ func getParams(req *http.Request,keys map[string]bool) (*Params,error){
 					paramMap[k] = value
 				}
 				return &Params{data:paramMap},nil
-				break
 			case "application/json":
 				result, _:= ioutil.ReadAll(req.Body)
 				json.Unmarshal(result,&paramMap)
 				return &Params{data:paramMap},nil
-				break
-			}
 
-			log.Infof("content type %s",contentType)
-			return &Params{data:paramMap},nil
+			case "application/xml":
+				paramMap["wx_msg_code"] = wxMsgParse(req)
+				return &Params{data:paramMap},nil
+			case "multipart/form-data":
+				file,header,error := req.FormFile("file")
+				if error != nil{
+					paramMap["error"] = error
+				}else{
+					paramMap["file"] = file
+					paramMap["header"] = header
+				}
+				return &Params{data:paramMap},nil
+			default:
+				return &Params{data:paramMap},errors.New("do not suppor this request")
+			}
 		}
 	}else{
 		return nil,nil
