@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"net/url"
 	"skinstore/common/logger"
+	"strings"
 )
 
 var log = logger.NewLog()
@@ -18,12 +19,13 @@ func LotLoginHandler(r *http.Request,w http.ResponseWriter){
 	referUri,_ := url.ParseRequestURI(decoderUrl)
 	refParams := referUri.Query()
 	redirectUrl := refParams.Get("redirect_uri")
+	redirectUrl = strings.Split(redirectUrl,"?")[0]
 	skillId := refParams.Get("skillId")
 	clientId := refParams.Get("client_id")
 	state := refParams.Get("state")
 	//resType := refParams.Get("response_type")
 	log.Infof("account:%s  password:%s  skillId:%s   clientId:%s",acc,pwd,skillId,clientId)
-	redirectUrl = redirectUrl+"&token=asdfaeafaea&state="+state
+	redirectUrl = redirectUrl+"?code=asdfaeafaea&state="+state
 	log.Infof("redirectUrl:%s",redirectUrl)
 	http.Redirect(w,r,redirectUrl,http.StatusMovedPermanently)
 }
