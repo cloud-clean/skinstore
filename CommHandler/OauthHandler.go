@@ -3,6 +3,7 @@ package CommHandler
 import (
 	"net/http"
 	"net/url"
+	"regexp"
 	"skinstore/common/logger"
 	"strings"
 )
@@ -13,14 +14,15 @@ func LotLoginHandler(r *http.Request,w http.ResponseWriter){
 	r.ParseForm()
 	acc := r.Form.Get("account")
 	pwd := r.Form.Get("password")
+	reg := regexp.MustCompile(`http:.*skillId=(/d{5,)`)
 
 	referUrl := r.Header.Get("referer")
 	decoderUrl,_ := url.QueryUnescape(referUrl)
 	referUri,_ := url.ParseRequestURI(decoderUrl)
 	refParams := referUri.Query()
 	redirectUrl := refParams.Get("redirect_uri")
+	skillId := reg.FindStringSubmatch(redirectUrl)[1]
 	redirectUrl = strings.Split(redirectUrl,"?")[0]
-	skillId := refParams.Get("skillId")
 	clientId := refParams.Get("client_id")
 	token:=refParams.Get("token")
 	state := refParams.Get("state")
