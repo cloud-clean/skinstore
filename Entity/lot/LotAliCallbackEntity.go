@@ -10,6 +10,7 @@ type AliCallback struct {
 	} 							`json:"header"`
 	Payload struct{
 		AccessToken string		`json:"accessToken"`
+		DeviceId	string 		`json:"deviceId"`
 		Devices []LotDevice	`json:"devices"`
 		Actions []string		`json:"actions"`
 		Extension map[string]string `json:"extension"`
