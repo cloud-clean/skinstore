@@ -80,6 +80,7 @@ func LotCallback(r *http.Request,w http.ResponseWriter){
 			resp.Payload.Devices = devices
 			resp.Payload.Actions = []string{"TrunOn,TrunOff"}
 			b,err := json.Marshal(resp)
+			log.Info(string(b))
 			if err != nil{
 
 			}
