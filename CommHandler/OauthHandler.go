@@ -83,6 +83,7 @@ func LotCallback(r *http.Request,w http.ResponseWriter){
 			if err != nil{
 
 			}
+			w.Header().Set("Content-Type","application/json")
 			w.Write(b)
 			log.Info("finish")
 			case "AliGenie.Iot.Device.Control":
