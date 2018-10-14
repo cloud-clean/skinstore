@@ -56,6 +56,7 @@ func InitTemplate()[]router.TempRoute{
 func InitComm()[]router.CommRoute{
 	addCommRoute("POST","/api/lot/login",CommHandler.LotLoginHandler)
 	addCommRoute("POST","/api/lot/access",CommHandler.LotTokenAccess)
+	addCommRoute("POST","/api/ali/callback",CommHandler.LotCallback)
 	return commRouters;
 }
 
