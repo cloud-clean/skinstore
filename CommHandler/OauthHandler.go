@@ -10,7 +10,6 @@ import (
 	"strings"
 	"io/ioutil"
 	"skinstore/Entity/lot"
-	"golang.org/x/net/html/atom"
 )
 
 var log = logger.NewLog()
