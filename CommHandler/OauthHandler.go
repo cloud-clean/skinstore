@@ -9,6 +9,8 @@ import (
 	"skinstore/common/logger"
 	"strings"
 	"io/ioutil"
+	"net"
+	"skinstore/Entity/lot"
 )
 
 var log = logger.NewLog()
@@ -62,7 +64,9 @@ func LotCallback(r *http.Request,w http.ResponseWriter){
 			log.Infof("%s:%s",k,v)
 		}
 		res,_ := ioutil.ReadAll(r.Body)
-		log.Info(string(res))
+		var callParam lot.AliCallback
+		json.Unmarshal(res,&callParam)
+		log.Info(callParam.Header.Name)
 
 
 	}
