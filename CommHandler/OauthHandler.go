@@ -10,6 +10,7 @@ import (
 	"strings"
 	"io/ioutil"
 	"skinstore/Entity/lot"
+	"golang.org/x/net/html/atom"
 )
 
 var log = logger.NewLog()
@@ -65,8 +66,25 @@ func LotCallback(r *http.Request,w http.ResponseWriter){
 		res,_ := ioutil.ReadAll(r.Body)
 		var callParam lot.AliCallback
 		json.Unmarshal(res,&callParam)
-		log.Info(callParam.Header.Name)
+		log.Info(callParam.Header.Namespace)
+		accessToken := callParam.Payload.AccessToken
+		log.Info(accessToken)
+		switch(callParam.Header.Namespace){
+		case "AliGenie.Iot.Device.Discovery":
+			var resp lot.AliCallback
+			resp.Header.Namespace = "AliGenie.Iot.Device"
+			resp.Header.Name = "DiscoveryDeviceResponse"
+			resp.Header.MessageId = callParam.Header.MessageId
+			resp.Header.PayLoadVersion = 1
+			resp.Payload.Devices[0] = lot.LotDevice{DeviceId:"cloud_lot_1",DeviceName:"cloudLot",DeviceType:"lot",Model:"lot",Icon:"https://www.home-assistant.io/demo/favicon-192x192.png"}
+			resp.Payload.Actions = []string{"TrunOn,TrunOff"}
+			b,err := json.Marshal(resp)
+			if err != nil{
 
+			}
+			w.Write(b)
+			case "AliGenie.Iot.Device.Control":
+		}
 
 	}
 
