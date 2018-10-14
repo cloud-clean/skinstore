@@ -72,7 +72,7 @@ func LotCallback(r *http.Request,w http.ResponseWriter){
 		switch(callParam.Header.Namespace){
 		case "AliGenie.Iot.Device.Discovery":
 			var resp lot.AliCallback
-			resp.Header.Namespace = "AliGenie.Iot.Device"
+			resp.Header.Namespace = "AliGenie.Iot.Device.Discovery"
 			resp.Header.Name = "DiscoveryDeviceResponse"
 			resp.Header.MessageId = callParam.Header.MessageId
 			resp.Header.PayLoadVersion = 1
