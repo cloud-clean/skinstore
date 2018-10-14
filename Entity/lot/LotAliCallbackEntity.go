@@ -22,6 +22,7 @@ type LotDevice struct {
 	DeviceName string 	`json:"deviceName"`
 	DeviceType string 	`json:"deviceType"`
 	Zone 		string	`json:"zone"`
+	Brand		string 	`json:"brand"`
 	Model		string 	`json:"model"`
 	Icon 		string  `json:"icon"`
 	Value 		string 	`json:"value"`
