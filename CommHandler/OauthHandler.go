@@ -68,6 +68,7 @@ func LotCallback(r *http.Request,w http.ResponseWriter){
 		log.Info(callParam.Header.Namespace)
 		accessToken := callParam.Payload.AccessToken
 		log.Info(accessToken)
+		log.Info(callParam.Header.Namespace)
 		switch(callParam.Header.Namespace){
 		case "AliGenie.Iot.Device.Discovery":
 			var resp lot.AliCallback
@@ -83,6 +84,7 @@ func LotCallback(r *http.Request,w http.ResponseWriter){
 
 			}
 			w.Write(b)
+			log.Info("finish")
 			case "AliGenie.Iot.Device.Control":
 		}
 
