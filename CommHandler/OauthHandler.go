@@ -73,7 +73,7 @@ func LotCallback(r *http.Request,w http.ResponseWriter){
 		case "AliGenie.Iot.Device.Discovery":
 			var resp lot.AliCallback
 			resp.Header.Namespace = "AliGenie.Iot.Device.Discovery"
-			resp.Header.Name = "DiscoveryDeviceResponse"
+			resp.Header.Name = "DiscoveryDevicesResponse"
 			resp.Header.MessageId = callParam.Header.MessageId
 			resp.Header.PayLoadVersion = 1
 			devices := []lot.LotDevice{lot.LotDevice{DeviceId:"cloud_lot_1",DeviceName:"cloudLot",DeviceType:"lot",Model:"lot",Brand:"cloud",Icon:"https://www.home-assistant.io/demo/favicon-192x192.png"}}
@@ -81,7 +81,7 @@ func LotCallback(r *http.Request,w http.ResponseWriter){
 			proMap["status"] = "off"
 			devices[0].Properties = []map[string]string{proMap}
 			resp.Payload.Devices = devices
-			resp.Payload.Actions = []string{"TrunOn,TrunOff"}
+			resp.Payload.Actions = []string{"TrunOn","TrunOff"}
 			b,err := json.Marshal(resp)
 			log.Info(string(b))
 			if err != nil{
