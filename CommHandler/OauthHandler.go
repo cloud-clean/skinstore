@@ -64,6 +64,7 @@ func LotCallback(r *http.Request,w http.ResponseWriter){
 		}
 		res,_ := ioutil.ReadAll(r.Body)
 		var callParam lot.AliCallback
+		log.Info(string(res))
 		json.Unmarshal(res,&callParam)
 		log.Info(callParam.Header.Namespace)
 		accessToken := callParam.Payload.AccessToken
