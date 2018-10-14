@@ -8,6 +8,7 @@ import (
 	"skinstore/common"
 	"skinstore/common/logger"
 	"strings"
+	"io/ioutil"
 )
 
 var log = logger.NewLog()
@@ -51,5 +52,19 @@ func LotTokenAccess(r *http.Request,w http.ResponseWriter){
 	b,err := json.Marshal(resp)
 	common.CheckErr(err)
 	w.Write(b)
+
+}
+
+func LotCallback(r *http.Request,w http.ResponseWriter){
+	if len(r.Header) > 0{
+		log.Info("headers:")
+		for k,v := range r.Header{
+			log.Infof("%s:%s",k,v)
+		}
+		res,_ := ioutil.ReadAll(r.Body)
+		log.Info(string(res))
+
+
+	}
 
 }
