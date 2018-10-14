@@ -58,10 +58,10 @@ func LotTokenAccess(r *http.Request,w http.ResponseWriter){
 
 func LotCallback(r *http.Request,w http.ResponseWriter){
 	if len(r.Header) > 0{
-		log.Info("headers:")
-		for k,v := range r.Header{
-			log.Infof("%s:%s",k,v)
-		}
+		//log.Info("headers:")
+		//for k,v := range r.Header{
+		//	log.Infof("%s:%s",k,v)
+		//}
 		res,_ := ioutil.ReadAll(r.Body)
 		var callParam lot.AliCallback
 		log.Info(string(res))
