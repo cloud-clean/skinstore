@@ -91,6 +91,8 @@ func LotCallback(r *http.Request,w http.ResponseWriter){
 			w.Write(b)
 			log.Info("finish")
 			case "AliGenie.Iot.Device.Control":
+				b,_ := json.Marshal(callParam)
+				log.Info(string(b))
 		}
 
 	}
