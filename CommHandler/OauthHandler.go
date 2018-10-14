@@ -76,12 +76,12 @@ func LotCallback(r *http.Request,w http.ResponseWriter){
 			resp.Header.Name = "DiscoveryDevicesResponse"
 			resp.Header.MessageId = callParam.Header.MessageId
 			resp.Header.PayLoadVersion = 1
-			devices := []lot.LotDevice{lot.LotDevice{DeviceId:"cloud_lot_1",DeviceName:"cloudLot",DeviceType:"lot",Model:"lot",Brand:"cloud",Icon:"https://www.home-assistant.io/demo/favicon-192x192.png"}}
+			devices := []lot.LotDevice{lot.LotDevice{DeviceId:"cloud_lot_1",DeviceName:"房灯",DeviceType:"灯",Model:"lot",Brand:"cloud",Icon:"https://www.home-assistant.io/demo/favicon-192x192.png"}}
 			var proMap = make(map[string]string)
 			proMap["status"] = "off"
 			devices[0].Properties = []map[string]string{proMap}
 			resp.Payload.Devices = devices
-			resp.Payload.Actions = []string{"TrunOn","TrunOff"}
+			resp.Payload.Actions = []string{"TurnOn","TurnOff"}
 			b,err := json.Marshal(resp)
 			log.Info(string(b))
 			if err != nil{
