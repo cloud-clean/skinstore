@@ -5,15 +5,15 @@ import (
 	"skinstore/utils/SqliteUtil"
 )
 
-type LotEntity struct {
+type LampStatusEntity struct {
 	Pos string 		`json:"pos"`
 	Status string 	`json:"status"`
 }
 
 
-func GetLot(pos string) *LotEntity{
+func GetLot(pos string) *LampStatusEntity{
 	db := SqliteUtil.NewSqlDb()
-	var lot LotEntity
+	var lot LampStatusEntity
 	stmt,err := db.Db.Prepare(`select pos as Pos,status as Status from lot_status where pos = ?`)
 	common.CheckErr(err)
 	defer stmt.Close()
@@ -26,7 +26,7 @@ func GetLot(pos string) *LotEntity{
 }
 
 
-func (lot *LotEntity) Update() bool{
+func (lot *LampStatusEntity) Update() bool{
 	if lot == nil{
 		return false
 	}
@@ -45,7 +45,7 @@ func (lot *LotEntity) Update() bool{
 }
 
 
-func (lot *LotEntity) Save() bool {
+func (lot *LampStatusEntity) Save() bool {
 	if lot == nil {
 		return false
 	}
