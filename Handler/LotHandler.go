@@ -26,7 +26,7 @@ func SaveLampHander(params *router.Params,rw http.ResponseWriter) *common.WebRes
 	status := params.Get("status")
 
 	if pos != "" && status != ""{
-		var lot = lot.LotEntity{Pos:pos,Status:status}
+		var lot = lot.LampStatusEntity{Pos:pos,Status:status}
 		if lot.Save(){
 			return common.NewResult(1,"success")
 		}
@@ -43,7 +43,7 @@ func UpdateLampHander(params *router.Params,rw http.ResponseWriter) *common.WebR
 	status := params.Get("status")
 
 	if pos != "" && status != ""{
-		var lot = lot.LotEntity{Pos:pos,Status:status}
+		var lot = lot.LampStatusEntity{Pos:pos,Status:status}
 		if lot.Update(){
 			return common.NewResult(1,"success")
 		}
