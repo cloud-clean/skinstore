@@ -8,7 +8,6 @@ import (
 
 const(
 	MQTT_SERVER = "tcp://202.182.118.148:61613"
-	CLIENT_ID = "sample"
 )
 type MqttClient struct {
 	Client mqtt.Client
