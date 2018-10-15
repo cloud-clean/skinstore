@@ -100,13 +100,13 @@ func LotCallback(r *http.Request,w http.ResponseWriter){
 				resp.Payload.DeviceId = callParam.Payload.DeviceId
 				if "TurnOn" == callParam.Header.Name{
 					log.Info("打开灯")
-					var msg = lot.LampStatusEntity{Pos:"lot3",Status:"1"}
+					var msg = lot.LampStatusEntity{Pos:"lot2",Status:"1"}
 					mqttClient.SendMsg(msg)
 					resp.Header.Name = "TurnOnResponse"
 
 				}else{
 					log.Info("关闭灯")
-					var msg = lot.LampStatusEntity{Pos:"lot3",Status:"0"}
+					var msg = lot.LampStatusEntity{Pos:"lot2",Status:"0"}
 					mqttClient.SendMsg(msg)
 					resp.Header.Name = "TurnOffResponse"
 				}
