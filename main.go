@@ -2,6 +2,8 @@ package main
 
 import (
 	"net/http"
+	"skinstore/common/logger"
+	"skinstore/mqttClient"
 	"skinstore/web"
 	"skinstore/web/router"
 	"strconv"
@@ -22,11 +24,11 @@ func main(){
 		Handler:r,
 	}
 
-	//mqttClient.MqttInit()
+	mqttClient.MqttInit()
 	//mqttClient.Mc.Subscribe(func(client mqtt.Client, message mqtt.Message) {
 	//	fmt.Println("get msg form mqtt:"+string(message.Payload()))
 	//})
-	//logger.NewLog().Infof("start server listen on:%s",svr.Addr)
+	logger.NewLog().Infof("start server listen on:%s",svr.Addr)
 	svr.ListenAndServe()
 }
 
