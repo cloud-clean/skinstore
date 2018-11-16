@@ -341,3 +341,25 @@
 2018/10/08 09:45:52 INFO E:/go/src/skinstore/web/router/Router.go:72 http method:get mappering for /api/upload
 2018/10/08 09:45:52 INFO E:/go/src/skinstore/web/router/Router.go:72 http method:get mappering for /api/lot
 2018/10/08 09:45:52 INFO E:/go/src/skinstore/web/router/Router.go:82 http template /lot/login
+2018/10/15 09:12:50 INFO E:/go/src/skinstore/web/router/Router.go:85 http method:get mappering for /test/go
+2018/10/15 09:12:50 INFO E:/go/src/skinstore/web/router/Router.go:85 http method:post mappering for /test/go
+2018/10/15 09:12:50 INFO E:/go/src/skinstore/web/router/Router.go:85 http method:get mappering for /api/project/list
+2018/10/15 09:12:50 INFO E:/go/src/skinstore/web/router/Router.go:85 http method:get mappering for /api/project/list/type
+2018/10/15 09:12:50 INFO E:/go/src/skinstore/web/router/Router.go:85 http method:post mappering for /api/project/add
+2018/10/15 09:12:50 INFO E:/go/src/skinstore/web/router/Router.go:85 http method:post mappering for /api/reser/add
+2018/10/15 09:12:50 INFO E:/go/src/skinstore/web/router/Router.go:85 http method:get mappering for /api/reser/list
+2018/10/15 09:12:50 INFO E:/go/src/skinstore/web/router/Router.go:85 http method:get mappering for /api/reser/list/today
+2018/10/15 09:12:50 INFO E:/go/src/skinstore/web/router/Router.go:85 http method:post mappering for /api/reser/status/update
+2018/10/15 09:12:50 INFO E:/go/src/skinstore/web/router/Router.go:85 http method:post mappering for /api/upload
+2018/10/15 09:12:50 INFO E:/go/src/skinstore/web/router/Router.go:85 http method:post mappering for /api/lot/update
+2018/10/15 09:12:50 INFO E:/go/src/skinstore/web/router/Router.go:85 http method:get mappering for /api/wx/msg
+2018/10/15 09:12:50 INFO E:/go/src/skinstore/web/router/Router.go:85 http method:post mappering for /api/wx/msg
+2018/10/15 09:12:50 INFO E:/go/src/skinstore/web/router/Router.go:85 http method:get mappering for /api/wx/oauth
+2018/10/15 09:12:50 INFO E:/go/src/skinstore/web/router/Router.go:85 http method:get mappering for /api/wx/sign
+2018/10/15 09:12:50 INFO E:/go/src/skinstore/web/router/Router.go:85 http method:get mappering for /api/upload
+2018/10/15 09:12:50 INFO E:/go/src/skinstore/web/router/Router.go:85 http method:get mappering for /api/lot
+2018/10/15 09:12:50 INFO E:/go/src/skinstore/web/router/Router.go:95 http template /lot/login
+2018/10/15 09:12:50 INFO E:/go/src/skinstore/web/router/Router.go:109 http method:POST path:/api/lot/login
+2018/10/15 09:12:50 INFO E:/go/src/skinstore/web/router/Router.go:109 http method:POST path:/api/lot/access
+2018/10/15 09:12:50 INFO E:/go/src/skinstore/web/router/Router.go:109 http method:POST path:/api/ali/callback
+2018/10/15 09:12:51 INFO E:/go/src/skinstore/main.go:34 start server listen on::8082
