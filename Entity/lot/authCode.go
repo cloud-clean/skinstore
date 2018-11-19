@@ -30,4 +30,14 @@ func (this *AuthCode) update() error{
 func ConfirmCode(code string) bool{
 	db := SqliteUtil.NewSqlDb()
 	stmt,err := db.Db.Prepare("select count(1) from auth_code where code = ? and expire > now()")
+	common.CheckErr(err)
+	var count = 0
+	res := stmt.QueryRow(code)
+	err = res.Scan(&count)
+	if err ==nil{
+		if count>0{
+			return true
+		}
+	}
+	return false
 }
