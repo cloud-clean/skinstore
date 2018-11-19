@@ -95,27 +95,27 @@ func LotCallback(r *http.Request,w http.ResponseWriter){
 			w.Header().Set("Content-Type","application/json")
 			w.Write(b)
 			log.Info("finish")
-		case "AliGenie.Iot.Device.Control":
-			var resp lot.AliCallback
-			resp.Header.Namespace = "AliGenie.Iot.Device.Control"
-			resp.Header.MessageId = callParam.Header.MessageId
-			resp.Header.PayLoadVersion = 1
-			resp.Payload.DeviceId = callParam.Payload.DeviceId
-			if "TurnOn" == callParam.Header.Name{
-				log.Info("打开灯")
-				var msg = lot.LampStatusEntity{Pos:"lot3",Status:"1"}
-				mqttClient.SendMsg(msg)
-				resp.Header.Name = "TurnOnResponse"
+			case "AliGenie.Iot.Device.Control":
+				var resp lot.AliCallback
+				resp.Header.Namespace = "AliGenie.Iot.Device.Control"
+				resp.Header.MessageId = callParam.Header.MessageId
+				resp.Header.PayLoadVersion = 1
+				resp.Payload.DeviceId = callParam.Payload.DeviceId
+				if "TurnOn" == callParam.Header.Name{
+					log.Info("打开灯")
+					var msg = lot.LampStatusEntity{Pos:"lot3",Status:"1"}
+					mqttClient.SendMsg(msg)
+					resp.Header.Name = "TurnOnResponse"
 
-			}else{
-				log.Info("关闭灯")
-				var msg = lot.LampStatusEntity{Pos:"lot3",Status:"0"}
-				mqttClient.SendMsg(msg)
-				resp.Header.Name = "TurnOffResponse"
-			}
-			b,_ := json.Marshal(resp)
-			w.Header().Set("Content-Type","application/json")
-			w.Write(b)
+				}else{
+					log.Info("关闭灯")
+					var msg = lot.LampStatusEntity{Pos:"lot3",Status:"0"}
+					mqttClient.SendMsg(msg)
+					resp.Header.Name = "TurnOffResponse"
+				}
+				b,_ := json.Marshal(resp)
+				w.Header().Set("Content-Type","application/json")
+				w.Write(b)
 		}
 
 	}
