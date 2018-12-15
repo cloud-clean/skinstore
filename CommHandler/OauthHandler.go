@@ -46,9 +46,11 @@ func LotLoginHandler(r *http.Request,w http.ResponseWriter){
 		redirectUrl = redirectUrl+"?code="+authCode.Code+"&state="+state+"&token="+token+"&client_id="+clientId+"&skillId="+skillId
 		log.Infof("redirectUrl:%s",redirectUrl)
 		http.Redirect(w,r,redirectUrl,http.StatusMovedPermanently)
+	}else{
+		log.Error(err.Error())
+		w.WriteHeader(http.StatusNotImplemented)
 	}
-	log.Error(err.Error())
-	w.WriteHeader(http.StatusNotImplemented)
+
 
 }
 
