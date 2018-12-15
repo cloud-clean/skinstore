@@ -6,6 +6,7 @@ import (
 	"skinstore/common"
 	"skinstore/utils/SqliteUtil"
 	"time"
+	"fmt"
 )
 
 type AuthToken struct {
@@ -80,6 +81,7 @@ func ConfirmCode(code string) (string,error){
 	var account = ""
 	res := stmt.QueryRow(code)
 	err = res.Scan(&account)
+	fmt.Println("account:"+account)
 	if err ==nil{
 		if account != ""{
 			return account,nil
