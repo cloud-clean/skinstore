@@ -52,3 +52,11 @@ func UpdateLampHander(params *router.Params,rw http.ResponseWriter) *common.WebR
 		return common.NewResult(0,"pos is null")
 	}
 }
+
+func ListCodeAndToken(params *router.Params,rw http.ResponseWriter)*common.WebResult{
+	codes := lot.ListCode()
+	tokens := lot.ListAccessTokens()
+	res := common.NewResult(1,codes)
+	res.SetData("tokens",tokens);
+	return res;
+}

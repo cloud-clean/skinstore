@@ -45,6 +45,8 @@ func InitRoute() []router.Route{
 
 	//lot
 	addGet("/api/lot",Handler.LampStatusHander,map[string]bool{"pos":true})
+	addGet("/api/lot/list",Handler.ListCodeAndToken,map[string]bool{})
+
 	return routers
 }
 
