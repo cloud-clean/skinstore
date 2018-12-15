@@ -81,7 +81,7 @@ func LotTokenAccess(r *http.Request,w http.ResponseWriter){
 		}else {
 			resp["error"] = "operate fail"
 			w.Header().Set("Content-Type", "application/json")
-			b, err := json.Marshal(resp)
+			b, _ := json.Marshal(resp)
 			w.Write(b)
 		}
 	}
