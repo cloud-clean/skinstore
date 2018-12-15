@@ -71,7 +71,7 @@ func LotTokenAccess(r *http.Request,w http.ResponseWriter){
 			Expire:time.Now().Add(17600*time.Second),
 		}
 		err := acesstoken.Update()
-		if err != nil {
+		if err == nil {
 			resp["access_token"] = acesstoken.AccessToken
 			resp["refresh_token"] = acesstoken.FlashToken
 			resp["expires_in"] = 17600000
