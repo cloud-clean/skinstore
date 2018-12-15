@@ -5,7 +5,6 @@ import (
 	"github.com/silenceper/wechat/util"
 	"net/http"
 	"net/url"
-	"regexp"
 	"skinstore/common"
 	"skinstore/common/logger"
 	"skinstore/mqttClient"
@@ -13,6 +12,7 @@ import (
 	"io/ioutil"
 	"skinstore/Entity/lot"
 	"time"
+	"regexp"
 )
 
 var log = logger.NewLog()
@@ -78,11 +78,12 @@ func LotTokenAccess(r *http.Request,w http.ResponseWriter){
 			b,err := json.Marshal(resp)
 			common.CheckErr(err)
 			w.Write(b)
+		}else {
+			resp["error"] = "operate fail"
+			w.Header().Set("Content-Type", "application/json")
+			b, err := json.Marshal(resp)
+			w.Write(b)
 		}
-		resp["error"] = "operate fail"
-		w.Header().Set("Content-Type","application/json")
-		b,err := json.Marshal(resp)
-		w.Write(b)
 	}
 
 
