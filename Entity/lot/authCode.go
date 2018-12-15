@@ -64,12 +64,10 @@ func fleshCode(code string) (*AuthToken,error){
 			token.AccessToken = util.RandomStr(18)
 			token.Expire = time.Now().Add(17600000*time.Microsecond)
 			token.FlashToken = util.RandomStr(18)
-			token.update()
+			token.Update()
 			return token,nil
 		}
 	}
 	return nil,errors.New("flas token is error")
 }
-
-
 
