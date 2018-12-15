@@ -41,7 +41,7 @@ func LotLoginHandler(r *http.Request,w http.ResponseWriter){
 	//resType := refParams.Get("response_type")
 	var authCode = &lot.AuthCode{Account:acc,Code:util.RandomStr(16),Expire:time.Now().Add(10*time.Minute)}
 	err := authCode.Update()
-	if err != nil{
+	if err == nil{
 		log.Infof("account:%s  password:%s  skillId:%s   clientId:%s",acc,pwd,skillId,clientId)
 		redirectUrl = redirectUrl+"?code="+authCode.Code+"&state="+state+"&token="+token+"&client_id="+clientId+"&skillId="+skillId
 		log.Infof("redirectUrl:%s",redirectUrl)
