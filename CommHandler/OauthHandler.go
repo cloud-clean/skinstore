@@ -2,6 +2,7 @@ package CommHandler
 
 import (
 	"encoding/json"
+	"github.com/silenceper/wechat/util"
 	"net/http"
 	"net/url"
 	"regexp"
@@ -11,6 +12,7 @@ import (
 	"strings"
 	"io/ioutil"
 	"skinstore/Entity/lot"
+	"time"
 )
 
 var log = logger.NewLog()
@@ -36,10 +38,17 @@ func LotLoginHandler(r *http.Request,w http.ResponseWriter){
 	token:=refParams.Get("token")
 	state := refParams.Get("state")
 	//resType := refParams.Get("response_type")
-	log.Infof("account:%s  password:%s  skillId:%s   clientId:%s",acc,pwd,skillId,clientId)
-	redirectUrl = redirectUrl+"?code=asdfaeafaea&state="+state+"&token="+token+"&client_id="+clientId+"&skillId="+skillId
-	log.Infof("redirectUrl:%s",redirectUrl)
-	http.Redirect(w,r,redirectUrl,http.StatusMovedPermanently)
+	var authCode = &lot.AuthCode{Account:acc,Code:util.RandomStr(16),Expire:time.Now().Add(10*time.Minute)}
+	err := authCode.Update()
+	if err != nil{
+		log.Infof("account:%s  password:%s  skillId:%s   clientId:%s",acc,pwd,skillId,clientId)
+		redirectUrl = redirectUrl+"?code="+authCode.Code+"&state="+state+"&token="+token+"&client_id="+clientId+"&skillId="+skillId
+		log.Infof("redirectUrl:%s",redirectUrl)
+		http.Redirect(w,r,redirectUrl,http.StatusMovedPermanently)
+	}
+	log.Error(err.Error())
+	w.WriteHeader(http.StatusNotImplemented)
+
 }
 
 func LotTokenAccess(r *http.Request,w http.ResponseWriter){
@@ -48,15 +57,32 @@ func LotTokenAccess(r *http.Request,w http.ResponseWriter){
 	clientSecret:= r.PostForm.Get("client_secret")
 	code := r.PostForm.Get("code")
 	grantType := r.PostForm.Get("grant_type");
-	log.Infof("clientId:%s  clientSecret:%s  code:%s  grantType:%s",clientId,clientSecret,code,grantType)
-	var resp = make(map[string]interface{})
-	resp["access_token"] = "xxxxdfasdfa"
-	resp["refresh_token"] = "eaesfasefa"
-	resp["expires_in"] = 17600000
-	w.Header().Set("Content-Type","application/json")
-	b,err := json.Marshal(resp)
-	common.CheckErr(err)
-	w.Write(b)
+	if lot.ConfirmCode(code){
+		log.Infof("clientId:%s  clientSecret:%s  code:%s  grantType:%s",clientId,clientSecret,code,grantType)
+		var resp = make(map[string]interface{})
+		var acesstoken = &lot.AuthToken{
+			Account:"",
+			AccessToken:util.RandomStr(18),
+			FlashToken:util.RandomStr(16),
+			Expire:time.Now().Add(17600*time.Second),
+		}
+		err := acesstoken.Update()
+		if err != nil {
+			resp["access_token"] = acesstoken.AccessToken
+			resp["refresh_token"] = acesstoken.FlashToken
+			resp["expires_in"] = 17600000
+			w.Header().Set("Content-Type","application/json")
+			b,err := json.Marshal(resp)
+			common.CheckErr(err)
+			w.Write(b)
+		}
+		resp["error"] = "operate fail"
+		w.Header().Set("Content-Type","application/json")
+		b,err := json.Marshal(resp)
+		w.Write(b)
+	}
+
+
 
 }
 

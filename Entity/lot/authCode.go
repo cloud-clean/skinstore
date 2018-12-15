@@ -1,6 +1,8 @@
 package lot
 
 import (
+	"errors"
+	"github.com/silenceper/wechat/util"
 	"skinstore/common"
 	"skinstore/utils/SqliteUtil"
 	"time"
@@ -19,7 +21,7 @@ type AuthCode struct {
 	Expire time.Time `json:'expire`
 }
 
-func (this *AuthCode) update() error{
+func (this *AuthCode) Update() error{
 	db := SqliteUtil.NewSqlDb()
 	stmt,err := db.Db.Prepare("replace into auth_code(`account`,`code`,`expire`) values(?,?,?)")
 	common.CheckErr(err)
@@ -27,17 +29,47 @@ func (this *AuthCode) update() error{
 	return err
 }
 
-func ConfirmCode(code string) bool{
+func (this *AuthToken) Update() error{
 	db := SqliteUtil.NewSqlDb()
-	stmt,err := db.Db.Prepare("select count(1) from auth_code where code = ? and expire > now()")
+	stmt,err := db.Db.Prepare("replace into access_token(`account`,`access_token`,`flash_token`,`expire`) values(?,?,?,?)")
 	common.CheckErr(err)
-	var count = 0
+	_,err = stmt.Exec(this.Account,this.AccessToken,this.FlashToken,this.Expire)
+	return err
+}
+
+func ConfirmCode(code string) (string,error){
+	db := SqliteUtil.NewSqlDb()
+	stmt,err := db.Db.Prepare("select account from auth_code where code = ? and expire > datetime('now','localtime')")
+	common.CheckErr(err)
+	var account = ""
 	res := stmt.QueryRow(code)
-	err = res.Scan(&count)
+	err = res.Scan(&account)
 	if err ==nil{
-		if count>0{
-			return true
+		if account != ""{
+			return account,nil
 		}
 	}
-	return false
+	return "",errors.New("code is not exists")
 }
+
+func fleshCode(code string) (*AuthToken,error){
+	db := SqliteUtil.NewSqlDb()
+	stmt,err := db.Db.Prepare("select account,assess_token as accessToken from auth_token where flash_token = ?")
+	common.CheckErr(err)
+	var token = &AuthToken{}
+	res := stmt.QueryRow(code)
+	err = res.Scan(token.Account,token.AccessToken)
+	if err ==nil{
+		if token.Account != ""{
+			token.AccessToken = util.RandomStr(18)
+			token.Expire = time.Now().Add(17600000*time.Microsecond)
+			token.FlashToken = util.RandomStr(18)
+			token.update()
+			return token,nil
+		}
+	}
+	return nil,errors.New("flas token is error")
+}
+
+
+
