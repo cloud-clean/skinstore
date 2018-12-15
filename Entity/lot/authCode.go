@@ -65,7 +65,7 @@ func ListAccessTokens() []AuthToken{
 
 func (this *AuthToken) Update() error{
 	db := SqliteUtil.NewSqlDb()
-	stmt,err := db.Db.Prepare("replace into access_token(`account`,`access_token`,`flash_token`,`expire`) values(?,?,?,?)")
+	stmt,err := db.Db.Prepare("replace into auth_token(`account`,`access_token`,`flash_token`,`expire`) values(?,?,?,?)")
 	common.CheckErr(err)
 	defer stmt.Close()
 	_,err = stmt.Exec(this.Account,this.AccessToken,this.FlashToken,this.Expire)
