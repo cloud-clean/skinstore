@@ -62,7 +62,7 @@ func LotTokenAccess(r *http.Request,w http.ResponseWriter){
 	log.Infof("code:%s",code)
 	grantType := r.PostForm.Get("grant_type")
 	var resp = make(map[string]interface{})
-	if account,err := lot.ConfirmCode(code);err != nil{
+	if account,err := lot.ConfirmCode(code);err == nil{
 		log.Infof("clientId:%s  clientSecret:%s  code:%s  grantType:%s",clientId,clientSecret,code,grantType)
 		var acesstoken = &lot.AuthToken{
 			Account:account,
