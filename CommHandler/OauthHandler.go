@@ -22,6 +22,7 @@ func LotLoginHandler(r *http.Request,w http.ResponseWriter){
 	acc := r.Form.Get("account")
 	pwd := r.Form.Get("password")
 	reg := regexp.MustCompile(`https:.*skillId=(\d{5,})`)
+	log.Info("account:%s  pwd:%s",acc,pwd);
 	if !lot.Login(acc,pwd){
 		w.WriteHeader(http.StatusForbidden)
 		return;
