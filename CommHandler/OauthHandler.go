@@ -59,10 +59,11 @@ func LotTokenAccess(r *http.Request,w http.ResponseWriter){
 	clientId := r.PostForm.Get("client_id")
 	clientSecret:= r.PostForm.Get("client_secret")
 	code := r.PostForm.Get("code")
-	grantType := r.PostForm.Get("grant_type");
+	log.Infof("code:%s",code)
+	grantType := r.PostForm.Get("grant_type")
+	var resp = make(map[string]interface{})
 	if account,err := lot.ConfirmCode(code);err != nil{
 		log.Infof("clientId:%s  clientSecret:%s  code:%s  grantType:%s",clientId,clientSecret,code,grantType)
-		var resp = make(map[string]interface{})
 		var acesstoken = &lot.AuthToken{
 			Account:account,
 			AccessToken:util.RandomStr(18),
@@ -84,6 +85,11 @@ func LotTokenAccess(r *http.Request,w http.ResponseWriter){
 			b, _ := json.Marshal(resp)
 			w.Write(b)
 		}
+	}else{
+		resp["error"] = "state error"
+		w.Header().Set("Content-Type","application/json")
+		b,_ := json.Marshal(resp)
+		w.Write(b)
 	}
 
 
