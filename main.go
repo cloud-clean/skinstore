@@ -8,6 +8,7 @@ import (
 	"skinstore/web/router"
 	"strconv"
 	"time"
+	"fmt"
 )
 
 func main(){
@@ -29,6 +30,9 @@ func main(){
 	//	fmt.Println("get msg form mqtt:"+string(message.Payload()))
 	//})
 	logger.NewLog().Infof("start server listen on:%s",svr.Addr)
-	svr.ListenAndServe()
+	err := svr.ListenAndServe()
+	if err != nil{
+		fmt.Println(err.Error())
+	}
 }
 
