@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 	"skinstore/common/logger"
 	"skinstore/mqttClient"
@@ -8,22 +9,25 @@ import (
 	"skinstore/web/router"
 	"strconv"
 	"time"
-	"fmt"
 )
 
 func main(){
 	port := 8082
 
+	//http.Handle("/static/",http.StripPrefix("/static/",http.FileServer(http.Dir("../template/static"))))
+
 	r := &router.Router{}
 	r.RegHandlers(web.InitRoute())
 	r.RegTemp(web.InitTemplate())
 	r.RegComm(web.InitComm())
+	r.RegStatic("./template/static")
 	svr :=http.Server{
 		Addr:":"+strconv.Itoa(port),
 		ReadTimeout:time.Second*5,
 		WriteTimeout:time.Second*5,
 		Handler:r,
 	}
+
 
 	mqttClient.MqttInit()
 	//mqttClient.Mc.Subscribe(func(client mqtt.Client, message mqtt.Message) {
