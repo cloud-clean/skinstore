@@ -20,10 +20,14 @@ type TempHandler func(w http.ResponseWriter)
 type CommHandler func(r *http.Request,w http.ResponseWriter)
 var log = logger.NewLog()
 var noLoginUrl = []string{"/api/wx/msg"}
+
+var staticHander http.Handler = nil
+
 type Router struct {
 	Route map[string]map[string]Route
 	Templ map[string]TempRoute
 	Comm map[string]map[string]CommRoute
+	prefix string
 }
 
 type Route struct {
@@ -44,7 +48,14 @@ type CommRoute struct{
 	Handler CommHandler
 }
 
+
 func (r *Router)ServeHTTP(w http.ResponseWriter,req *http.Request){
+	//优先处理静态文件
+	if strings.HasPrefix(req.URL.Path,"/static/") && staticHander != nil{
+		staticHander.ServeHTTP(w,req);
+		return
+	}
+
 	//网页模板优先
 	if route,ok:= r.Templ[req.URL.Path];ok{
 		route.Handler(w)
@@ -70,6 +81,10 @@ func (r *Router)ServeHTTP(w http.ResponseWriter,req *http.Request){
 	}else{
 		http.NotFound(w,req)
 	}
+}
+
+func (r *Router)RegStatic(path string){
+	staticHander = http.StripPrefix("/static/",http.FileServer(http.Dir(path)))
 }
 
 func (r *Router)RegHandlers(routes []Route){
