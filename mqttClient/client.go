@@ -7,7 +7,7 @@ import (
 )
 
 const(
-	MQTT_SERVER = "tcp://127.0.0.1：1883"
+	MQTT_SERVER = "tcp://127.0.0.1:1883"
 )
 type MqttClient struct {
 	Client mqtt.Client
