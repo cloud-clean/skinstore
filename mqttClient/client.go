@@ -7,7 +7,7 @@ import (
 )
 
 const(
-	MQTT_SERVER = "tcp://202.182.118.148:61613"
+	MQTT_SERVER = "tcp://127.0.0.1：1883"
 )
 type MqttClient struct {
 	Client mqtt.Client
@@ -17,7 +17,6 @@ type MqttClient struct {
 func NewMqttClient(username,password,topic string) *MqttClient{
 	clientId := time.Now().Unix()
 	opts := mqtt.NewClientOptions().AddBroker(MQTT_SERVER).SetClientID(string(clientId))
-	opts.SetProtocolVersion(4)
 	opts.SetUsername(username)
 	opts.SetPassword(password)
 	c := mqtt.NewClient(opts)
